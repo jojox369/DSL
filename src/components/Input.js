@@ -18,6 +18,8 @@ const Input = styled.TextInput`
   margin-left: 10px;
 `;
 
+import {Text} from 'react-native';
+
 export default ({placeholder, keyboardType, value, onChangeText}) => {
   return (
     <InputArea>

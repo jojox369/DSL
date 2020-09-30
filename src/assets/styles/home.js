@@ -1,10 +1,10 @@
-import React from 'react';
 import styled from 'styled-components/native';
+import {ScreenColor} from '../styles/global';
 
 export const Container = styled.View`
   flex: 1;
+  background-color: ${ScreenColor};
 `;
-
 export const Scroller = styled.ScrollView`
   flex: 1;
 `;

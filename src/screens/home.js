@@ -5,13 +5,12 @@ import {
   Scroller,
   ListArea,
   ButtonArea,
-  ButtonText,
   Card,
   ListName,
 } from '../assets/styles/home';
 
 import {useNavigation} from '@react-navigation/native';
-import IconSvg from '../assets/icons/plus.svg';
+import NewListIcon from '../assets/icons/plus.svg';
 
 export default () => {
   const navigation = useNavigation();
@@ -31,12 +30,7 @@ export default () => {
           </Card>
 
           <Card>
-            <ListName
-              onPress={() => {
-                console.log('aqui');
-              }}>
-              Lista 3
-            </ListName>
+            <ListName>Lista 3</ListName>
           </Card>
 
           <Card>
@@ -72,8 +66,9 @@ export default () => {
           </Card>
         </ListArea>
       </Scroller>
+
       <ButtonArea onPress={onPress}>
-        <IconSvg width="50" heigth="50" fill="#000000" />
+        <NewListIcon width="25" heigth="25" fill="#000000" />
       </ButtonArea>
     </Container>
   );

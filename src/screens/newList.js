@@ -1,26 +1,49 @@
 import React, {useState} from 'react';
 
-import {Container, InputArea} from '../assets/styles/newList';
-import styled from 'styled-components/native';
+import {
+  Container,
+  ListItemArea,
+  ItemArea,
+  Item,
+  Price,
+  Amount,
+  AddItemArea,
+  AddItemButton,
+  TotalArea,
+  TotalText,
+  TotalValue,
+  InputArea,
+} from '../assets/styles/newList';
 
-const Input = styled.TextInput`
-  flex: 1;
-  font-size: 16px;
-  margin-left: 10px;
-`;
+import InputComponent from '../components/Input';
+import NewListIcon from '../assets/icons/plus.svg';
 export default () => {
   const [itemName, setItemName] = useState();
+  const [itemPrice, setItemPrice] = useState();
+  const [itemAmount, setItemAmount] = useState();
+  const [total, setTotal] = useState();
   return (
     <Container>
-      <InputArea>
-        <Input
-          placeholder="Digite o nome do item"
-          value={itemName}
-          onChangeText={(t) => {
-            setItemName(t);
-          }}
-        />
-      </InputArea>
+      <ListItemArea>
+        <ItemArea>
+          <Item value={itemName} />
+          <Price value={itemPrice} placeholder="Preço" />
+          <Amount value={itemAmount} placeholder="Quantidade" />
+          <TotalArea>
+            <TotalValue>{total}</TotalValue>
+          </TotalArea>
+        </ItemArea>
+      </ListItemArea>
+
+      <AddItemArea>
+        <InputArea>
+          <InputComponent />
+        </InputArea>
+
+        <AddItemButton>
+          <NewListIcon width="25" heigth="25" fill="#000000" />
+        </AddItemButton>
+      </AddItemArea>
     </Container>
   );
 };
