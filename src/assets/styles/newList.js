@@ -22,12 +22,20 @@ export const ItemArea = styled.View`
   align-items: center;
 `;
 
-export const Item = styled.TextInput`
+export const ItemNameArea = styled.TouchableOpacity`
   background-color: #ffffff;
-  width: 150px;
+  width: 120px;
+  height: 40px;
   margin: 10px 0 10px 10px;
   border-radius: 30px;
-  text-align: center;
+
+  align-items: center;
+  justify-content: center;
+`;
+
+export const ItemName = styled.Text`
+  font-weight: bold;
+  font-size: 17px;
 `;
 
 export const Amount = styled.TextInput`
@@ -47,8 +55,14 @@ export const Price = styled.TextInput`
 `;
 
 export const TotalArea = styled.View`
+  flex: 1;
+  height: 40px;
   margin: 10px 5px 10px 10px;
   flex-direction: column;
+  background-color: #ffffff;
+  border-radius: 30px;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const TotalText = styled.Text`
@@ -89,6 +103,11 @@ export const AddItemButton = styled.TouchableOpacity`
   height: 70px;
   width: 70px;
   margin-left: 10px;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const FinishListIconArea = styled.View`
   align-items: center;
   justify-content: center;
 `;

@@ -1,5 +1,5 @@
-import React from 'react';
-
+import React, {useContext} from 'react';
+import {Context} from '../contexts/context';
 import {
   Container,
   Scroller,
@@ -13,6 +13,7 @@ import {useNavigation} from '@react-navigation/native';
 import NewListIcon from '../assets/icons/plus.svg';
 
 export default () => {
+  const {state} = useContext(Context);
   const navigation = useNavigation();
 
   const onPress = () => {
@@ -22,48 +23,11 @@ export default () => {
     <Container>
       <Scroller>
         <ListArea>
-          <Card>
-            <ListName>Lista 1</ListName>
-          </Card>
-          <Card>
-            <ListName>Lista 2</ListName>
-          </Card>
-
-          <Card>
-            <ListName>Lista 3</ListName>
-          </Card>
-
-          <Card>
-            <ListName>Lista 4</ListName>
-          </Card>
-
-          <Card>
-            <ListName>Lista 5</ListName>
-          </Card>
-
-          <Card>
-            <ListName>Lista 6</ListName>
-          </Card>
-
-          <Card>
-            <ListName>Lista 6</ListName>
-          </Card>
-
-          <Card>
-            <ListName>Lista 6</ListName>
-          </Card>
-          <Card>
-            <ListName>Lista 6</ListName>
-          </Card>
-          <Card>
-            <ListName>Lista 6</ListName>
-          </Card>
-          <Card>
-            <ListName>Lista 6</ListName>
-          </Card>
-          <Card>
-            <ListName>Lista 6</ListName>
-          </Card>
+          {state.map((item) => {
+            <Card key={item.id}>
+              <ListName>item.name</ListName>
+            </Card>;
+          })}
         </ListArea>
       </Scroller>
 
