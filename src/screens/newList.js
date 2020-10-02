@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import {
   Container,
@@ -12,103 +12,98 @@ import {
   AddItemButton,
   TotalArea,
   TotalValue,
-  InputArea,
-  FinishListIconArea,
+  TotaListArea,
+  TotalList,
+  TotalValorText,
 } from '../assets/styles/newList';
 
-import InputComponent from '../components/Input';
 import NewListIcon from '../assets/icons/plus.svg';
+import ModalComponent from '../components/Modal';
 
 export default () => {
   const [items, setItems] = useState([]);
-  const [itemName, setItemName] = useState();
+  const [totalList, setTotalList] = useState();
 
-  const [itemTotal, setItemTotal] = useState('R$ 0,00');
+  const [showModal, setshowModal] = useState(false);
+
+  useEffect(() => {
+    calcTotalList();
+  });
 
   function handleClick(id) {
     console.log(id);
-    calcTotal(id);
   }
 
-  function priceChanged(text, id) {
-    //text.toString().replace(',', '.');
-    calcTotal(id);
+  function calcTotal(price, amount) {
+    price = price.toString().replace(/,/, '.');
+    const total = parseFloat(price) * amount;
+    return total;
   }
 
-  function amountChanged(text, id) {}
+  function calcTotalList() {
+    let total = 0;
+    items.forEach((item) => {
+      total += parseFloat(item.total);
+    });
 
-  function calcTotal(id) {
-    for (const item of items) {
-      if (item.id === id) {
-        if (item.price && item.amount) {
-          const total = parseFloat(item.price) * item.amount;
-          const totalView =
-            'R$ ' +
-            total
-              .toFixed(2) // casas decimais
-              .replace('.', ',')
-              .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
-          setItemTotal(totalView);
-        }
-      }
-    }
+    setTotalList(total);
   }
 
-  const addItem = () => {
-    if (itemName) {
-      setItems([
-        ...items,
-        {
-          id: items.length,
-          name: itemName,
-          price: '',
-          amount: '',
-          total: '',
-        },
-      ]);
-      setItemName('');
-    }
+  const toggle = () => {
+    setshowModal(!showModal);
+  };
+
+  const addItem = (itemName, itemPrice, itemAmount) => {
+    const arrayState = [...items];
+    const item = {
+      name: itemName,
+      price: itemPrice,
+      amount: itemAmount,
+      total: calcTotal(itemPrice, itemAmount),
+    };
+    arrayState.push(item);
+    calcTotalList();
+    setItems(arrayState);
+    toggle();
   };
 
   return (
     <Container>
+      <ModalComponent isVisible={showModal} toggle={toggle} addItem={addItem} />
+      <TotaListArea>
+        <TotalList>Valor Total da Lista: </TotalList>
+        <TotalValorText> R$ {totalList}</TotalValorText>
+      </TotaListArea>
       <ListItemArea>
-        {items.map((item) => (
-          <ItemArea key={item.id}>
-            <ItemNameArea onLongPress={() => handleClick(item.id)}>
+        {items.map((item, index) => (
+          <ItemArea key={index}>
+            <ItemNameArea onLongPress={() => handleClick(index)}>
               <ItemName>{item.name}</ItemName>
             </ItemNameArea>
-            <Price
-              value={item.price}
-              placeholder="Preço"
-              keyboardType="numeric"
-              onChangeText={(t) => priceChanged(t, item.id)}
-            />
-            <Amount
-              value={item.amount}
-              placeholder="Quantidade"
-              onChangeText={(t) => amountChanged(t, item.id)}
-              keyboardType="numeric"
-            />
+
+            <ItemNameArea>
+              <Price>R$ {item.price}</Price>
+            </ItemNameArea>
+
+            <ItemNameArea>
+              <Amount>{item.amount}</Amount>
+            </ItemNameArea>
+
             <TotalArea>
-              <TotalValue>{itemTotal}</TotalValue>
+              <TotalValue>
+                {'R$ ' +
+                  item.total
+                    .toFixed(2) // casas decimais
+                    .replace('.', ',')
+                    .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}
+              </TotalValue>
             </TotalArea>
           </ItemArea>
         ))}
       </ListItemArea>
 
       <AddItemArea>
-        <InputArea>
-          <InputComponent
-            placeholder="Digite o nome do item"
-            value={itemName}
-            onChangeText={(t) => {
-              setItemName(t);
-            }}
-          />
-        </InputArea>
-
-        <AddItemButton onPress={addItem}>
+        <AddItemButton onPress={() => setshowModal(true)}>
           <NewListIcon width="25" heigth="25" fill="#000000" />
         </AddItemButton>
       </AddItemArea>

@@ -1,5 +1,5 @@
-import React, {useContext} from 'react';
-import {Context} from '../contexts/context';
+import React from 'react';
+
 import {
   Container,
   Scroller,
@@ -13,14 +13,13 @@ import {useNavigation} from '@react-navigation/native';
 import NewListIcon from '../assets/icons/plus.svg';
 
 export default () => {
-  const {state} = useContext(Context);
   const navigation = useNavigation();
 
   const onPress = () => {
     navigation.navigate('NewList');
   };
   return (
-    <Container>
+    /*<Container>
       <Scroller>
         <ListArea>
           {state.map((item) => {
@@ -34,6 +33,7 @@ export default () => {
       <ButtonArea onPress={onPress}>
         <NewListIcon width="25" heigth="25" fill="#000000" />
       </ButtonArea>
-    </Container>
+    </Container>*/
+    <ListName>HomePage</ListName>
   );
 };

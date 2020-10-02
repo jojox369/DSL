@@ -4,23 +4,21 @@ import styled from 'styled-components/native';
 const InputArea = styled.View`
   width: 100%;
   height: 60px;
-  background-color: #ffffff;
-  flex-direction: row;
+  background-color: #eee;
+  flex-direction: column;
   border-radius: 30px;
   padding-left: 15px;
   padding-right: 15px;
-  align-items: center;
   margin-bottom: 15px;
 `;
 const Input = styled.TextInput`
   flex: 1;
   font-size: 16px;
   margin-left: 10px;
+  width: 100%;
 `;
 
-import {Text} from 'react-native';
-
-export default ({placeholder, keyboardType, value, onChangeText}) => {
+export default ({placeholder, keyboardType, value, onChangeText, label}) => {
   return (
     <InputArea>
       <Input

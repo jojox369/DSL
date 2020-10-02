@@ -6,12 +6,6 @@ export const Container = styled.View`
   background-color: ${ScreenColor};
 `;
 
-export const Input = styled.TextInput`
-  flex: 1;
-  font-size: 16px;
-  margin-left: 10px;
-`;
-
 export const ListItemArea = styled.ScrollView`
   flex: 1;
 `;
@@ -20,13 +14,14 @@ export const ItemArea = styled.View`
   flex-direction: row;
   flex: 1;
   align-items: center;
+  margin-top: 10px;
 `;
 
 export const ItemNameArea = styled.TouchableOpacity`
   background-color: #ffffff;
-  width: 120px;
+  width: 100px;
   height: 40px;
-  margin: 10px 0 10px 10px;
+  margin-right: 5px;
   border-radius: 30px;
 
   align-items: center;
@@ -38,41 +33,30 @@ export const ItemName = styled.Text`
   font-size: 17px;
 `;
 
-export const Amount = styled.TextInput`
-  background-color: #ffffff;
-  width: 80px;
-  margin: 10px 0 10px 0;
-  border-radius: 30px;
-  text-align: center;
+export const Amount = styled.Text`
+  font-weight: bold;
+  font-size: 17px;
 `;
 
-export const Price = styled.TextInput`
-  background-color: #ffffff;
-  width: 80px;
-  margin: 10px 5px 10px 5px;
-  border-radius: 30px;
-  text-align: center;
+export const Price = styled.Text`
+  font-weight: bold;
+  font-size: 17px;
 `;
 
 export const TotalArea = styled.View`
   flex: 1;
   height: 40px;
-  margin: 10px 5px 10px 10px;
   flex-direction: column;
-  background-color: #ffffff;
+  background-color: #7cc67c;
   border-radius: 30px;
   align-items: center;
   justify-content: center;
 `;
 
-export const TotalText = styled.Text`
-  font-weight: bold;
-  font-size: 13px;
-`;
-
 export const TotalValue = styled.Text`
-  font-size: 20px;
   font-weight: bold;
+  font-size: 17px;
+  color: #ffffff;
 `;
 
 export const AddItemArea = styled.View`
@@ -110,4 +94,28 @@ export const AddItemButton = styled.TouchableOpacity`
 export const FinishListIconArea = styled.View`
   align-items: center;
   justify-content: center;
+`;
+
+export const TotaListArea = styled.View`
+  background-color: #ffffff;
+  height: 50px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  width: 100%;
+`;
+
+export const TotalList = styled.Text`
+  font-weight: bold;
+  font-size: 15px;
+`;
+
+export const TotalValorText = styled.Text`
+  background-color: #7cc67c;
+  font-weight: bold;
+  border-radius: 20px;
+  width: 70px;
+  height: 20px;
+  text-align: center;
+  color: #ffffff;
 `;
