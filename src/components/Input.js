@@ -18,7 +18,7 @@ const Input = styled.TextInput`
   width: 100%;
 `;
 
-export default ({placeholder, keyboardType, value, onChangeText, label}) => {
+export default ({placeholder, keyboardType, value, onChangeText, password}) => {
   return (
     <InputArea>
       <Input
@@ -26,6 +26,7 @@ export default ({placeholder, keyboardType, value, onChangeText, label}) => {
         keyboardType={keyboardType}
         value={value}
         onChangeText={onChangeText}
+        secureTextEntry={password}
       />
     </InputArea>
   );

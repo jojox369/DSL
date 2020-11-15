@@ -9,8 +9,7 @@ export default () => (
   <Stack.Navigator
     screenOptions={{
       headerTitleAlign: 'center',
-    }}
-    initialRouteName="NewList">
+    }}>
     <Stack.Screen
       name="Home"
       component={Home}
