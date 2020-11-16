@@ -7,6 +7,10 @@ const headers = {
 export default {
   getAll: async () => {
     const request = await api.get('product');
-    console.log(request.status);
+    if (request.status === 200) {
+      return request.data;
+    } else {
+      return 'error';
+    }
   },
 };

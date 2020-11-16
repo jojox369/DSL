@@ -1,12 +1,13 @@
 import styled from 'styled-components/native';
-import {ScreenColor} from '../styles/global';
+import {CardColor, ScreenColor} from '../styles/global';
 
-export const Container = styled.View`
+export const Container = styled.SafeAreaView`
   flex: 1;
   background-color: ${ScreenColor};
 `;
 export const Scroller = styled.ScrollView`
   flex: 1;
+  padding: 20px;
 `;
 
 export const ListArea = styled.View`
@@ -15,17 +16,21 @@ export const ListArea = styled.View`
   justify-content: center;
 `;
 
-export const Card = styled.View`
-  background-color: #ffffff;
+export const Card = styled.TouchableOpacity`
+  background-color: ${CardColor};
   flex: 1;
-  width: 95%;
+  width: 100%;
   padding: 20px;
   margin: 10px;
   border-radius: 50px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 export const ListName = styled.Text`
   font-weight: bold;
+  font-size: 20px;
 `;
 
 export const ButtonArea = styled.TouchableOpacity`
@@ -41,7 +46,7 @@ export const ButtonArea = styled.TouchableOpacity`
   margin: 10px;
   border-radius: 50px;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 `;
 
 export const ButtonText = styled.Text`
@@ -49,4 +54,20 @@ export const ButtonText = styled.Text`
   font-size: 70px;
   color: #fff;
   margin-bottom: 5px;
+`;
+
+export const InitialArea = styled.View``;
+
+export const EndArea = styled.View``;
+
+export const TotalText = styled.Text`
+  font-weight: bold;
+  font-size: 15px;
+  color: #7cc67c;
+`;
+
+export const ListProducts = styled.Text`
+  font-size: 11px;
+  color: #000000;
+  font-weight: bold;
 `;

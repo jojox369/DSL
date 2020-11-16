@@ -1,4 +1,4 @@
-export const ScreenColor = '#ddd';
+export const ScreenColor = '#b1b1b1';
 
 export const ButtonColor = '#1b3d4e';
 

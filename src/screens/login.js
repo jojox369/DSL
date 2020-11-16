@@ -1,8 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 
 import {useNavigation} from '@react-navigation/native';
 import {showMessage} from 'react-native-flash-message';
 import InputComponent from '../components/Input';
+import AsyncStorage from '@react-native-community/async-storage';
+import {Context} from '../contexts/context';
 import {
   Container,
   InputArea,
@@ -22,6 +24,7 @@ export default () => {
   [username, setUsername] = useState('');
   [password, setPassword] = useState('');
   [loading, setLoading] = useState(false);
+  const {dispatch: userDispatch} = useContext(Context);
 
   const handleClickLogin = async () => {
     if (!username || !password) {
@@ -43,6 +46,14 @@ export default () => {
         const result = await Api.auth(username, password);
 
         if (result !== 'error') {
+          await AsyncStorage.setItem('logged', 'true');
+          await AsyncStorage.setItem('userData', JSON.stringify(result.user));
+          userDispatch({
+            type: 'setUser',
+            payload: {
+              user: result.user,
+            },
+          });
           navigation.reset({
             routes: [{name: 'MainRoutes'}],
           });

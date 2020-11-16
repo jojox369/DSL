@@ -1,15 +1,13 @@
-export const Reducer = (state, action) => {
+export const UserReducer = (state, action) => {
   switch (action.type) {
-    case 'setList':
-      return [
+    case 'setUser':
+      return {
         ...state,
-        {
-          name: action.payload.name,
-          price: action.payload.price,
-          amount: action.payload.amount,
-        },
-      ];
-
+        id: action.payload.user.id,
+        email: action.payload.user.username,
+        name: action.payload.user.name,
+      };
+      break;
     default:
       return state;
   }

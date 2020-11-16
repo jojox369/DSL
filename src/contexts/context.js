@@ -1,11 +1,11 @@
-import React, {createContext, useReducer} from 'react';
-import {Reducer} from '../reducers/reducer';
+import React, {createContext, useReducer, useEffect} from 'react';
+import {UserReducer} from '../reducers/reducer';
 
 export const Context = createContext();
 
 export default ({children}) => {
-  const initialState = [];
-  const [state, dispatch] = useReducer(Reducer, initialState);
+  const initialState = {id: 0, name: '', email: ''};
+  const [state, dispatch] = useReducer(UserReducer, initialState);
 
   return (
     <Context.Provider value={{state, dispatch}}>{children}</Context.Provider>

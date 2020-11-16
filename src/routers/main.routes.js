@@ -1,24 +1,30 @@
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+
 import Home from '../screens/home';
 import NewList from '../screens/newList';
+import Profile from '../screens/profile';
+import CustomTabBar from '../components/TabBar';
 
-const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 export default () => (
-  <Stack.Navigator
-    screenOptions={{
-      headerTitleAlign: 'center',
-    }}>
-    <Stack.Screen
+  <Tab.Navigator tabBar={(props) => <CustomTabBar {...props} />}>
+    <Tab.Screen
       name="Home"
       component={Home}
       options={{headerTitle: 'Listas de Compras'}}
     />
-    <Stack.Screen
+    <Tab.Screen
       name="NewList"
       component={NewList}
       options={{headerTitle: 'Nova Lista de Compras'}}
     />
-  </Stack.Navigator>
+    <Tab.Screen
+      name="Profile"
+      component={NewList}
+      options={{headerTitle: 'Perfil'}}
+    />
+  </Tab.Navigator>
 );
