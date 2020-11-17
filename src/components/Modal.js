@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Modal} from 'react-native';
 import InputComponent from '../components/Input';
 import ProductApi from '../services/product';
+import CloseIcon from '../assets/icons/close.svg';
 
 import {
   ModalAreaItems,
@@ -16,83 +17,78 @@ import {
   ListProductsArea,
   ProductName,
   ProductView,
+  HeaderArea,
+  CloseBox,
 } from '../assets/styles/modal';
 
 export default ({isVisible, toggle, addItem}) => {
-  const [itemName, setItemName] = useState();
-  const [listName, setListName] = useState();
-  const [newList, setNewList] = useState(false);
+  const [itemName, setItemName] = useState('');
   const [products, setProducts] = useState([]);
-  const [addingItens, setAddingItens] = useState(true);
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
-  function resetState(product) {
-    addItem(listName, product);
+  function resetState() {
     setItemName();
-    setNewList(false);
-    setAddingItens(false);
+    getProducts();
   }
 
   const getProducts = async () => {
-    setAddingItens(true);
-    setProducts(await ProductApi.getAll());
+    const result = await ProductApi.getAll();
+    setProducts(result);
+    setFilteredProducts(result);
   };
 
   useEffect(() => {
     getProducts();
-  }, []);
+  }, [isVisible]);
 
-  function filterProducts(t) {
+  async function filterProducts() {
     const filteredProducts = products.filter((product) =>
-      product.name.toLowerCase().includes(t.toLowerCase()),
+      product.name.toLowerCase().includes(itemName.toLowerCase()),
     );
-    setProducts(filteredProducts);
+
+    setFilteredProducts(filteredProducts);
   }
 
   return (
     <Modal visible={isVisible} animationType={'slide'} transparent={true}>
       <ModalAreaItems>
         <ModalItems>
-          <ModalTitle>{newList ? 'Nova Lista' : 'Adicionar Item'}</ModalTitle>
-
-          {!newList && (
-            <ModalArea>
-              <InputComponent
-                placeholder="Digite o nome do item"
-                value={itemName}
-                onChangeText={(t) => {
-                  setListName(t);
-                  filterProducts(t);
-                }}
+          <HeaderArea>
+            <ModalTitle>Adicionar Item</ModalTitle>
+            <CloseBox>
+              <CloseIcon
+                width="24"
+                height="24"
+                fill="#000000"
+                onPress={() => toggle()}
               />
-              <Scroller>
-                <ListProductsArea>
-                  {products.map((product) => (
-                    <ProductView
-                      key={product.id}
-                      onPress={() => resetState(product)}>
-                      <ProductName>{product.name}</ProductName>
-                    </ProductView>
-                  ))}
-                </ListProductsArea>
-              </Scroller>
-            </ModalArea>
-          )}
+            </CloseBox>
+          </HeaderArea>
 
-          {newList && (
-            <ModalArea>
-              <InputComponent
-                placeholder="Digite o nome da lista"
-                value={listName}
-                onChangeText={(t) => setListName(t)}
-              />
-
-              <ModalButtonsArea>
-                <SaveItemButton onPress={() => resetState()}>
-                  <ModalButtonText>Nova Lista</ModalButtonText>
-                </SaveItemButton>
-              </ModalButtonsArea>
-            </ModalArea>
-          )}
+          <ModalArea>
+            <InputComponent
+              placeholder="Digite o nome do item"
+              value={itemName}
+              onChangeText={(t) => {
+                t ? filterProducts(t) : setFilteredProducts(products);
+                setItemName(t);
+              }}
+            />
+            <Scroller>
+              <ListProductsArea>
+                {filteredProducts.map((product) => (
+                  <ProductView
+                    key={product.id}
+                    onPress={() => {
+                      addItem(product);
+                      resetState();
+                    }}>
+                    <ProductName>{product.name}</ProductName>
+                  </ProductView>
+                ))}
+              </ListProductsArea>
+            </Scroller>
+          </ModalArea>
         </ModalItems>
       </ModalAreaItems>
     </Modal>

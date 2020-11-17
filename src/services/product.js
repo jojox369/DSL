@@ -13,4 +13,13 @@ export default {
       return 'error';
     }
   },
+  getByName: async (name) => {
+    const request = await api.get(`name/${name}`);
+
+    if (request.status === 200) {
+      return request.data;
+    } else {
+      return 'error';
+    }
+  },
 };

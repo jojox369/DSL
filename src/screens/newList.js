@@ -1,134 +1,150 @@
-import React, {useState, useEffect, useContext} from 'react';
-
+import React, {useState, useContext, useEffect} from 'react';
+import {
+  useNavigation,
+  useRoute,
+  useFocusEffect,
+} from '@react-navigation/native';
+import {showMessage} from 'react-native-flash-message';
 import {
   Container,
   ListItemArea,
   ItemArea,
   ItemNameArea,
   ItemName,
-  Price,
-  Amount,
   AddItemArea,
   AddItemButton,
-  TotalArea,
-  TotalValue,
-  TotalList,
-  TotalValueArea,
-  TotalValueText,
   ListNameArea,
   ListNameText,
+  FinishListArea,
+  FinishListText,
 } from '../assets/styles/newList';
 
 import NewListIcon from '../assets/icons/plus.svg';
 import ModalComponent from '../components/Modal';
+import ModalNewList from '../components/NewList';
+import LoadingComponent from '../components/Loading';
+
 import {Context} from '../contexts/context';
+import Api from '../services/list';
 
 export default () => {
+  const navigation = useNavigation();
+  const route = useRoute();
   const [products, setProducts] = useState([]);
-  const [totalList, setTotalList] = useState();
-  const [showModal, setshowModal] = useState(false);
+  const [productsName, setProductsName] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [showListNameModal, setShowListNameModal] = useState(false);
   const {state} = useContext(Context);
   const [listName, setListName] = useState('');
+  const [newList, setNewList] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    //calcTotalList();
-    setshowModal(true);
-  }, []);
-
-  function handleClick(id) {
-    console.log(id);
-  }
-
-  function calcTotal(price, amount) {
+  /* function calcTotal(price, amount) {
     price = price.toString().replace(/,/, '.');
     const total = parseFloat(price) * amount;
     return total;
-  }
-
-  /* function calcTotalList() {
-    let total = 0;
-    items.forEach((item) => {
-      total += parseFloat(item.total);
-    });
-
-    setTotalList(total);
   } */
 
-  const toggle = () => {
-    setshowModal(!showModal);
+  const reset = () => {
+    setProducts([]);
+    setProductsName([]);
+    setShowModal(false);
+    setListName('');
+    setNewList(true);
+    setLoading(false);
   };
 
-  const addItem = (listName, product) => {
-    const listProduct = {
-      user: {id: state.id},
-      products: [],
-      name: '',
-    };
-    /* const item = {
-      name: itemName,
-      price: itemPrice,
-      amount: itemAmount,
-      total: calcTotal(itemPrice, itemAmount),
-    };
-    arrayState.push(item);
-    calcTotalList();
-    setItems(arrayState);
-     */
-    if (listName !== undefined) {
-      listProduct.name = listName;
-      setListName(listName);
+  const toggle = () => {
+    setShowModal(!showModal);
+  };
+
+  const addItem = (product) => {
+    const arrayState = [...products];
+    const productsNameState = [...productsName];
+    arrayState.push({id: product.id, amount: 0, price: 0});
+    productsNameState.push(product.name);
+    setProducts(arrayState);
+    setProductsName(productsNameState);
+  };
+
+  const addNewList = async () => {
+    if (products.length === 0) {
+      showMessage({
+        message: 'Insira pelo menos um produto na lista',
+        type: 'warning',
+        icon: 'warning',
+      });
+    } else {
+      setLoading(true);
+
+      const listProduct = {
+        user: {id: state.id},
+        products: products,
+        name: listName,
+      };
+
+      const request = await Api.save(listProduct);
+
+      if (request !== 'error') {
+        navigation.reset({routes: [{name: 'Home'}]});
+      } else {
+        showMessage({
+          message: 'Não foi possivel cadastrar a nova lista',
+          type: 'danger',
+          icon: 'danger',
+        });
+      }
     }
-    listProduct.products.push({id: product.id, amount: 0, price: 0});
-    console.log(listProduct.products);
-    toggle();
   };
 
   return (
     <Container>
-      <ModalComponent isVisible={showModal} toggle={toggle} addItem={addItem} />
+      {!loading && (
+        <Container>
+          <ModalComponent
+            isVisible={showModal}
+            toggle={toggle}
+            addItem={addItem}
+          />
 
-      <ListNameArea>
-        <ListNameText>{listName}</ListNameText>
+          <ModalNewList
+            isVisible={showListNameModal}
+            onChangeText={(t) => setListName(t)}
+            listName={listName}
+            onPress={() => {
+              setNewList(false);
+              setShowListNameModal(false);
+            }}
+          />
 
-        <TotalValueArea>
-          <TotalList>Valor Total da Lista: </TotalList>
-          <TotalValueText> R$ {totalList}</TotalValueText>
-        </TotalValueArea>
-      </ListNameArea>
+          <ListNameArea>
+            <ListNameText>{listName}</ListNameText>
+            <FinishListArea onPress={() => addNewList()}>
+              <FinishListText>Finalizar Lista</FinishListText>
+            </FinishListArea>
+          </ListNameArea>
 
-      <ListItemArea>
-        {products.map((item, index) => (
-          <ItemArea key={index}>
-            <ItemNameArea onLongPress={() => handleClick(index)}>
-              <ItemName>{item.name}</ItemName>
-            </ItemNameArea>
+          <ListItemArea>
+            {productsName.map((name, index) => (
+              <ItemArea key={index}>
+                <ItemNameArea>
+                  <ItemName>{name}</ItemName>
+                </ItemNameArea>
+              </ItemArea>
+            ))}
+          </ListItemArea>
 
-            {/* <ItemNameArea>
-              <Price>R$ {item.price}</Price>
-            </ItemNameArea>
-
-            <ItemNameArea>
-              <Amount>{item.amount}</Amount>
-            </ItemNameArea>
-
-            <TotalArea>
-              <TotalValue>
-                {'R$ ' +
-                  item.total
-                    .toFixed(2) // casas decimais
-                    .replace('.', ',')
-                    .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}
-              </TotalValue>
-            </TotalArea> */}
-          </ItemArea>
-        ))}
-      </ListItemArea>
-
-      <AddItemArea>
-        <AddItemButton onPress={() => setshowModal(true)}>
-          <NewListIcon width="25" heigth="25" fill="#000000" />
-        </AddItemButton>
-      </AddItemArea>
+          <AddItemArea>
+            <AddItemButton
+              onPress={() =>
+                newList ? setShowListNameModal(true) : setShowModal(true)
+              }>
+              <NewListIcon width="25" heigth="25" fill="#000000" />
+            </AddItemButton>
+          </AddItemArea>
+        </Container>
+      )}
+      {loading && <LoadingComponent />}
     </Container>
   );
 };

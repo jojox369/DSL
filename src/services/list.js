@@ -13,4 +13,13 @@ export default {
       return 'error';
     }
   },
+
+  save: async (list) => {
+    const request = await api.post('list', list);
+    if (request.status === 201) {
+      return request.data;
+    } else {
+      return 'error';
+    }
+  },
 };

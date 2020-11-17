@@ -9,6 +9,7 @@ export const ModalAreaItems = styled.View`
 
 export const ModalItems = styled.View`
   margin-top: 10px;
+  margin-bottom: 10px;
   padding-top: 10px;
   padding-left: 10px;
   padding-right: 10px;
@@ -24,7 +25,8 @@ export const ModalItems = styled.View`
 export const ModalTitle = styled.Text`
   font-weight: bold;
   font-size: 17px;
-  margin-bottom: 20px;
+  flex: 1;
+  text-align: center;
 `;
 
 export const ModalArea = styled.View`
@@ -87,4 +89,18 @@ export const ProductView = styled.TouchableOpacity`
   width: 100%;
   align-items: center;
   justify-content: center;
+`;
+
+export const HeaderArea = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+`;
+
+export const CloseBox = styled.View`
+  width: 25px;
+  height: 25px;
+  max-width: 25px;
+  max-height: 25px;
 `;

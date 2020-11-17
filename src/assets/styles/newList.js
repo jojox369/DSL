@@ -19,7 +19,7 @@ export const ItemArea = styled.View`
 
 export const ItemNameArea = styled.TouchableOpacity`
   background-color: #ffffff;
-  width: 100px;
+  width: 100%;
   height: 40px;
   margin-right: 5px;
   border-radius: 30px;
@@ -31,26 +31,6 @@ export const ItemNameArea = styled.TouchableOpacity`
 export const ItemName = styled.Text`
   font-weight: bold;
   font-size: 17px;
-`;
-
-export const Amount = styled.Text`
-  font-weight: bold;
-  font-size: 17px;
-`;
-
-export const Price = styled.Text`
-  font-weight: bold;
-  font-size: 17px;
-`;
-
-export const TotalArea = styled.View`
-  flex: 1;
-  height: 40px;
-  flex-direction: column;
-  background-color: #7cc67c;
-  border-radius: 30px;
-  align-items: center;
-  justify-content: center;
 `;
 
 export const AddItemArea = styled.View`
@@ -68,13 +48,6 @@ export const AddItemArea = styled.View`
   margin-bottom: 10px;
 `;
 
-export const InputArea = styled.View`
-  align-items: center;
-  justify-content: center;
-  flex: 0.9;
-  margin-top: 30px;
-`;
-
 export const AddItemButton = styled.TouchableOpacity`
   background-color: #7cc67c;
   border-radius: 50px;
@@ -90,28 +63,6 @@ export const FinishListIconArea = styled.View`
   justify-content: center;
 `;
 
-export const TotalValueArea = styled.View`
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  margin-right: 10px;
-`;
-
-export const TotalList = styled.Text`
-  font-weight: bold;
-  font-size: 15px;
-`;
-
-export const TotalValueText = styled.Text`
-  background-color: #7cc67c;
-  font-weight: bold;
-  border-radius: 20px;
-  width: 70px;
-  height: 20px;
-  text-align: center;
-  color: #ffffff;
-`;
-
 export const ListNameArea = styled.View`
   background-color: #ffffff;
   height: 50px;
@@ -125,4 +76,18 @@ export const ListNameText = styled.Text`
   font-weight: bold;
   font-size: 15px;
   margin-left: 10px;
+`;
+
+export const FinishListArea = styled.TouchableOpacity`
+  margin-right: 5px;
+  background-color: #7cc67c;
+  width: 95px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px;
+`;
+
+export const FinishListText = styled.Text`
+  font-weight: bold;
 `;
