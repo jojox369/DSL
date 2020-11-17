@@ -1,88 +1,51 @@
-import React, {useState} from 'react';
-import styled from 'styled-components/native';
+import React, {useEffect, useState} from 'react';
 import {Modal} from 'react-native';
 import InputComponent from '../components/Input';
+import ProductApi from '../services/product';
 
-const ModalAreaItems = styled.View`
-  background-color: #000000aa;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-`;
-
-const ModalItems = styled.View`
-  margin-top: 10px;
-  padding-top: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
-  width: 80%;
-  border-radius: 10px;
-  flex: 1;
-  background-color: #ffffff;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: column;
-`;
-
-const ModalTitle = styled.Text`
-  font-weight: bold;
-  font-size: 17px;
-  margin-bottom: 20px;
-`;
-
-const ModalInputArea = styled.View`
-  flex: 1;
-  width: 100%;
-  margin-top: 20px;
-`;
-
-const ModalButtonsArea = styled.View`
-  flex: 1;
-  width: 100%;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-`;
-
-const CancelButton = styled.TouchableOpacity`
-  background-color: red;
-  margin-right: 25px;
-  height: 50px;
-  width: 100px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 40px;
-`;
-
-const SaveItemButton = styled.TouchableOpacity`
-  background-color: green;
-  height: 50px;
-  width: 100px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 40px;
-`;
-
-const ModalButtonText = styled.Text`
-  color: #ffffff;
-  font-weight: bold;
-`;
+import {
+  ModalAreaItems,
+  ModalItems,
+  ModalTitle,
+  ModalArea,
+  Scroller,
+  ModalButtonsArea,
+  CancelButton,
+  SaveItemButton,
+  ModalButtonText,
+  ListProductsArea,
+  ProductName,
+  ProductView,
+} from '../assets/styles/modal';
 
 export default ({isVisible, toggle, addItem}) => {
   const [itemName, setItemName] = useState();
-  const [itemPrice, setItemPrice] = useState();
-  const [itemAmount, setItemAmount] = useState();
   const [listName, setListName] = useState();
-  const [newList, setNewList] = useState(true);
+  const [newList, setNewList] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [addingItens, setAddingItens] = useState(true);
 
-  function resetState() {
-    newList
-      ? addItem(itemName, itemPrice, itemAmount, listName)
-      : addItem(itemName, itemPrice, itemAmount);
+  function resetState(product) {
+    addItem(listName, product);
     setItemName();
-    setItemAmount();
-    setItemPrice();
     setNewList(false);
+    setAddingItens(false);
+  }
+
+  const getProducts = async () => {
+    setAddingItens(true);
+    setProducts(await ProductApi.getAll());
+  };
+
+  useEffect(() => {
+    getProducts();
+  }, []);
+
+  function filterProducts(t) {
+    const filteredProducts = products.filter((product) =>
+      product.name.toLowerCase().includes(t.toLowerCase()),
+    );
+    setProducts(filteredProducts);
   }
 
   return (
@@ -92,38 +55,31 @@ export default ({isVisible, toggle, addItem}) => {
           <ModalTitle>{newList ? 'Nova Lista' : 'Adicionar Item'}</ModalTitle>
 
           {!newList && (
-            <ModalInputArea>
+            <ModalArea>
               <InputComponent
-                placeholder="Digite o nome do intem"
+                placeholder="Digite o nome do item"
                 value={itemName}
-                onChangeText={(t) => setItemName(t)}
+                onChangeText={(t) => {
+                  setListName(t);
+                  filterProducts(t);
+                }}
               />
-              <InputComponent
-                placeholder="Digite o preço do item"
-                value={itemPrice}
-                onChangeText={(t) => setItemPrice(t)}
-                keyboardType="numeric"
-              />
-              <InputComponent
-                placeholder="Digite a quantidade de itens"
-                value={itemAmount}
-                keyboardType="numeric"
-                onChangeText={(t) => setItemAmount(t)}
-              />
-              <ModalButtonsArea>
-                <CancelButton onPress={toggle}>
-                  <ModalButtonText>Cancelar</ModalButtonText>
-                </CancelButton>
-
-                <SaveItemButton onPress={() => resetState()}>
-                  <ModalButtonText>Adicionar</ModalButtonText>
-                </SaveItemButton>
-              </ModalButtonsArea>
-            </ModalInputArea>
+              <Scroller>
+                <ListProductsArea>
+                  {products.map((product) => (
+                    <ProductView
+                      key={product.id}
+                      onPress={() => resetState(product)}>
+                      <ProductName>{product.name}</ProductName>
+                    </ProductView>
+                  ))}
+                </ListProductsArea>
+              </Scroller>
+            </ModalArea>
           )}
 
           {newList && (
-            <ModalInputArea>
+            <ModalArea>
               <InputComponent
                 placeholder="Digite o nome da lista"
                 value={listName}
@@ -135,7 +91,7 @@ export default ({isVisible, toggle, addItem}) => {
                   <ModalButtonText>Nova Lista</ModalButtonText>
                 </SaveItemButton>
               </ModalButtonsArea>
-            </ModalInputArea>
+            </ModalArea>
           )}
         </ModalItems>
       </ModalAreaItems>

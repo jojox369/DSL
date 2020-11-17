@@ -24,13 +24,14 @@ import ModalComponent from '../components/Modal';
 import {Context} from '../contexts/context';
 
 export default () => {
-  const [items, setItems] = useState([]);
+  const [products, setProducts] = useState([]);
   const [totalList, setTotalList] = useState();
   const [showModal, setshowModal] = useState(false);
   const {state} = useContext(Context);
   const [listName, setListName] = useState('');
+
   useEffect(() => {
-    calcTotalList();
+    //calcTotalList();
     setshowModal(true);
   }, []);
 
@@ -44,21 +45,25 @@ export default () => {
     return total;
   }
 
-  function calcTotalList() {
+  /* function calcTotalList() {
     let total = 0;
     items.forEach((item) => {
       total += parseFloat(item.total);
     });
 
     setTotalList(total);
-  }
+  } */
 
   const toggle = () => {
     setshowModal(!showModal);
   };
 
-  const addItem = (itemName, itemPrice, itemAmount, listName) => {
-    const listProduct = {user: {id: state.id}, products: [], name: ''};
+  const addItem = (listName, product) => {
+    const listProduct = {
+      user: {id: state.id},
+      products: [],
+      name: '',
+    };
     /* const item = {
       name: itemName,
       price: itemPrice,
@@ -69,10 +74,12 @@ export default () => {
     calcTotalList();
     setItems(arrayState);
      */
-    if (!itemName && !itemPrice && !itemAmount && listName) {
+    if (listName !== undefined) {
       listProduct.name = listName;
       setListName(listName);
     }
+    listProduct.products.push({id: product.id, amount: 0, price: 0});
+    console.log(listProduct.products);
     toggle();
   };
 
@@ -90,13 +97,13 @@ export default () => {
       </ListNameArea>
 
       <ListItemArea>
-        {items.map((item, index) => (
+        {products.map((item, index) => (
           <ItemArea key={index}>
             <ItemNameArea onLongPress={() => handleClick(index)}>
               <ItemName>{item.name}</ItemName>
             </ItemNameArea>
 
-            <ItemNameArea>
+            {/* <ItemNameArea>
               <Price>R$ {item.price}</Price>
             </ItemNameArea>
 
@@ -112,7 +119,7 @@ export default () => {
                     .replace('.', ',')
                     .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}
               </TotalValue>
-            </TotalArea>
+            </TotalArea> */}
           </ItemArea>
         ))}
       </ListItemArea>
