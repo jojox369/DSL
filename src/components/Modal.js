@@ -72,48 +72,71 @@ export default ({isVisible, toggle, addItem}) => {
   const [itemName, setItemName] = useState();
   const [itemPrice, setItemPrice] = useState();
   const [itemAmount, setItemAmount] = useState();
+  const [listName, setListName] = useState();
+  const [newList, setNewList] = useState(true);
 
   function resetState() {
-    addItem(itemName, itemPrice, itemAmount);
+    newList
+      ? addItem(itemName, itemPrice, itemAmount, listName)
+      : addItem(itemName, itemPrice, itemAmount);
     setItemName();
     setItemAmount();
     setItemPrice();
+    setNewList(false);
   }
 
   return (
     <Modal visible={isVisible} animationType={'slide'} transparent={true}>
       <ModalAreaItems>
         <ModalItems>
-          <ModalTitle>Adicionar Item</ModalTitle>
+          <ModalTitle>{newList ? 'Nova Lista' : 'Adicionar Item'}</ModalTitle>
 
-          <ModalInputArea>
-            <InputComponent
-              placeholder="Digite o nome do intem"
-              value={itemName}
-              onChangeText={(t) => setItemName(t)}
-            />
-            <InputComponent
-              placeholder="Digite o preço do item"
-              value={itemPrice}
-              onChangeText={(t) => setItemPrice(t)}
-              keyboardType="numeric"
-            />
-            <InputComponent
-              placeholder="Digite a quantidade de itens"
-              value={itemAmount}
-              keyboardType="numeric"
-              onChangeText={(t) => setItemAmount(t)}
-            />
-            <ModalButtonsArea>
-              <CancelButton onPress={toggle}>
-                <ModalButtonText>Cancelar</ModalButtonText>
-              </CancelButton>
+          {!newList && (
+            <ModalInputArea>
+              <InputComponent
+                placeholder="Digite o nome do intem"
+                value={itemName}
+                onChangeText={(t) => setItemName(t)}
+              />
+              <InputComponent
+                placeholder="Digite o preço do item"
+                value={itemPrice}
+                onChangeText={(t) => setItemPrice(t)}
+                keyboardType="numeric"
+              />
+              <InputComponent
+                placeholder="Digite a quantidade de itens"
+                value={itemAmount}
+                keyboardType="numeric"
+                onChangeText={(t) => setItemAmount(t)}
+              />
+              <ModalButtonsArea>
+                <CancelButton onPress={toggle}>
+                  <ModalButtonText>Cancelar</ModalButtonText>
+                </CancelButton>
 
-              <SaveItemButton onPress={() => resetState()}>
-                <ModalButtonText>Adicionar</ModalButtonText>
-              </SaveItemButton>
-            </ModalButtonsArea>
-          </ModalInputArea>
+                <SaveItemButton onPress={() => resetState()}>
+                  <ModalButtonText>Adicionar</ModalButtonText>
+                </SaveItemButton>
+              </ModalButtonsArea>
+            </ModalInputArea>
+          )}
+
+          {newList && (
+            <ModalInputArea>
+              <InputComponent
+                placeholder="Digite o nome da lista"
+                value={listName}
+                onChangeText={(t) => setListName(t)}
+              />
+
+              <ModalButtonsArea>
+                <SaveItemButton onPress={() => resetState()}>
+                  <ModalButtonText>Nova Lista</ModalButtonText>
+                </SaveItemButton>
+              </ModalButtonsArea>
+            </ModalInputArea>
+          )}
         </ModalItems>
       </ModalAreaItems>
     </Modal>

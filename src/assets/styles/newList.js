@@ -53,12 +53,6 @@ export const TotalArea = styled.View`
   justify-content: center;
 `;
 
-export const TotalValue = styled.Text`
-  font-weight: bold;
-  font-size: 17px;
-  color: #ffffff;
-`;
-
 export const AddItemArea = styled.View`
   flex: 0.1;
   position: absolute;
@@ -96,13 +90,11 @@ export const FinishListIconArea = styled.View`
   justify-content: center;
 `;
 
-export const TotaListArea = styled.View`
-  background-color: #ffffff;
-  height: 50px;
+export const TotalValueArea = styled.View`
   align-items: center;
   justify-content: center;
   flex-direction: row;
-  width: 100%;
+  margin-right: 10px;
 `;
 
 export const TotalList = styled.Text`
@@ -110,7 +102,7 @@ export const TotalList = styled.Text`
   font-size: 15px;
 `;
 
-export const TotalValorText = styled.Text`
+export const TotalValueText = styled.Text`
   background-color: #7cc67c;
   font-weight: bold;
   border-radius: 20px;
@@ -118,4 +110,19 @@ export const TotalValorText = styled.Text`
   height: 20px;
   text-align: center;
   color: #ffffff;
+`;
+
+export const ListNameArea = styled.View`
+  background-color: #ffffff;
+  height: 50px;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 100%;
+`;
+
+export const ListNameText = styled.Text`
+  font-weight: bold;
+  font-size: 15px;
+  margin-left: 10px;
 `;

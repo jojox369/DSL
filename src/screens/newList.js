@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 
 import {
   Container,
@@ -12,23 +12,27 @@ import {
   AddItemButton,
   TotalArea,
   TotalValue,
-  TotaListArea,
   TotalList,
-  TotalValorText,
+  TotalValueArea,
+  TotalValueText,
+  ListNameArea,
+  ListNameText,
 } from '../assets/styles/newList';
 
 import NewListIcon from '../assets/icons/plus.svg';
 import ModalComponent from '../components/Modal';
+import {Context} from '../contexts/context';
 
 export default () => {
   const [items, setItems] = useState([]);
   const [totalList, setTotalList] = useState();
-
   const [showModal, setshowModal] = useState(false);
-
+  const {state} = useContext(Context);
+  const [listName, setListName] = useState('');
   useEffect(() => {
     calcTotalList();
-  });
+    setshowModal(true);
+  }, []);
 
   function handleClick(id) {
     console.log(id);
@@ -53,9 +57,9 @@ export default () => {
     setshowModal(!showModal);
   };
 
-  const addItem = (itemName, itemPrice, itemAmount) => {
-    const arrayState = [...items];
-    const item = {
+  const addItem = (itemName, itemPrice, itemAmount, listName) => {
+    const listProduct = {user: {id: state.id}, products: [], name: ''};
+    /* const item = {
       name: itemName,
       price: itemPrice,
       amount: itemAmount,
@@ -64,16 +68,27 @@ export default () => {
     arrayState.push(item);
     calcTotalList();
     setItems(arrayState);
+     */
+    if (!itemName && !itemPrice && !itemAmount && listName) {
+      listProduct.name = listName;
+      setListName(listName);
+    }
     toggle();
   };
 
   return (
     <Container>
       <ModalComponent isVisible={showModal} toggle={toggle} addItem={addItem} />
-      <TotaListArea>
-        <TotalList>Valor Total da Lista: </TotalList>
-        <TotalValorText> R$ {totalList}</TotalValorText>
-      </TotaListArea>
+
+      <ListNameArea>
+        <ListNameText>{listName}</ListNameText>
+
+        <TotalValueArea>
+          <TotalList>Valor Total da Lista: </TotalList>
+          <TotalValueText> R$ {totalList}</TotalValueText>
+        </TotalValueArea>
+      </ListNameArea>
+
       <ListItemArea>
         {items.map((item, index) => (
           <ItemArea key={index}>
