@@ -22,4 +22,13 @@ export default {
       return 'error';
     }
   },
+
+  delete: async (listId) => {
+    const request = await api.delete(`list/${listId}`);
+    if (request.status === 200) {
+      return request.data;
+    } else {
+      return 'error';
+    }
+  },
 };

@@ -5,7 +5,6 @@ import {
   Container,
   Scroller,
   ListArea,
-  ButtonArea,
   Card,
   ListName,
   InitialArea,
@@ -17,12 +16,12 @@ import {
 import {showMessage} from 'react-native-flash-message';
 import {Context} from '../contexts/context';
 import {useNavigation} from '@react-navigation/native';
-import NewListIcon from '../assets/icons/plus.svg';
 import Api from '../services/list';
 import ProductApi from '../services/product';
 import LoadingComponent from '../components/Loading';
 import ErrorComponent from '../components/Error';
-import {set} from 'react-native-reanimated';
+import ListOptionsComponent from '../components/ListOptions';
+import ConfirmDeleteComponent from '../components/ConfirmDelete';
 
 export default () => {
   const navigation = useNavigation();
@@ -32,6 +31,9 @@ export default () => {
   const [hasNoLists, setHasNoLists] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [productList, setProductList] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
+  const [listId, setListid] = useState();
 
   const getLists = async () => {
     setLoading(true);
@@ -61,17 +63,15 @@ export default () => {
     }
   };
 
+  const getProducts = async () => {
+    setProductList(await ProductApi.getAll());
+  };
+
   useEffect(() => {
     getLists();
-    const getProducts = async () => {
-      setProductList(await ProductApi.getAll());
-    };
+
     getProducts();
   }, []);
-
-  const onPress = () => {
-    navigation.navigate('NewList');
-  };
 
   const listProducts = (products) => {
     let response = '';
@@ -98,35 +98,74 @@ export default () => {
     return response;
   };
 
+  const deleteButtonPress = () => {
+    setShowModal(false);
+    setShowConfirmDeleteModal(true);
+  };
+
+  const editButtonPress = () => {
+    console.log(`List id: ${listId}`);
+  };
+
+  const deleteList = async () => {
+    setLoading(true);
+    setShowConfirmDeleteModal(false);
+    const response = await Api.delete(listId);
+    if (response != 'error') {
+      showMessage({
+        message: 'Lista excluida com sucesso',
+        type: 'success',
+        icon: 'success',
+      });
+      setTimeout(() => {
+        getLists();
+      }, 4000);
+    } else {
+      setLoading(false);
+      showMessage({
+        message: 'Não foi possivel excluir a lista',
+        type: 'danger',
+        icon: 'danger',
+      });
+    }
+  };
+
   return (
     <Container>
-      {
-        !loading && !hasNoLists && !hasError && (
-          <Scroller>
-            <ListArea>
-              {lists.map((item) => (
-                <Card key={item.id}>
-                  <InitialArea>
-                    <ListName>{item.name}</ListName>
-                    <ListProducts>
-                      {listProducts(item.list_product)}
-                    </ListProducts>
-                  </InitialArea>
-                  <EndArea>
-                    <TotalText>{`R$ ${calcTotal(
-                      item.list_product,
-                    )}`}</TotalText>
-                  </EndArea>
-                </Card>
-              ))}
-            </ListArea>
-          </Scroller>
-        )
-        /* 
-      <ButtonArea onPress={onPress}>
-        <NewListIcon width="25" heigth="25" fill="#000000" />
-      </ButtonArea> */
-      }
+      {!loading && !hasNoLists && !hasError && (
+        <Scroller>
+          <ListOptionsComponent
+            isVisible={showModal}
+            deleteButtonPress={deleteButtonPress}
+            editButtonPress={editButtonPress}
+            onPress={() => setShowModal(false)}
+          />
+          <ConfirmDeleteComponent
+            isVisible={showConfirmDeleteModal}
+            onPress={() => setShowConfirmDeleteModal(false)}
+            deleteList={deleteList}
+            closeModal={() => setShowConfirmDeleteModal(false)}
+          />
+          <ListArea>
+            {lists.map((item, i) => (
+              <Card
+                key={i}
+                onLongPress={() => {
+                  setShowModal(true);
+                  setListid(item.id);
+                }}>
+                <InitialArea>
+                  <ListName>{item.name}</ListName>
+                  <ListProducts>{listProducts(item.list_product)}</ListProducts>
+                </InitialArea>
+                <EndArea>
+                  <TotalText>{`R$ ${calcTotal(item.list_product)}`}</TotalText>
+                </EndArea>
+              </Card>
+            ))}
+          </ListArea>
+        </Scroller>
+      )}
 
       {loading && <LoadingComponent />}
       {hasError && <ErrorComponent />}

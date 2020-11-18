@@ -68,7 +68,13 @@ export default () => {
   };
 
   const addNewList = async () => {
-    if (products.length === 0) {
+    if (listName === '') {
+      showMessage({
+        message: 'Insira o nome da lista',
+        type: 'warning',
+        icon: 'warning',
+      });
+    } else if (products.length === 0) {
       showMessage({
         message: 'Insira pelo menos um produto na lista',
         type: 'warning',
@@ -86,7 +92,14 @@ export default () => {
       const request = await Api.save(listProduct);
 
       if (request !== 'error') {
-        navigation.reset({routes: [{name: 'Home'}]});
+        showMessage({
+          message: 'Lista cadastrada com sucesso',
+          type: 'success',
+          icon: 'success',
+        });
+        setTimeout(() => {
+          navigation.reset({routes: [{name: 'Home'}]});
+        }, 4000);
       } else {
         showMessage({
           message: 'Não foi possivel cadastrar a nova lista',
