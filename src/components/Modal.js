@@ -56,7 +56,7 @@ export default ({isVisible, toggle, addItem}) => {
                 width="24"
                 height="24"
                 fill="#000000"
-                onPress={() => toggle()}
+                onPress={toggle}
               />
             </CloseBox>
           </HeaderArea>

@@ -1,5 +1,4 @@
 import React, {useState, useEffect, useContext} from 'react';
-import AsyncStorage from '@react-native-community/async-storage';
 
 import {
   Container,
@@ -104,7 +103,7 @@ export default () => {
   };
 
   const editButtonPress = () => {
-    console.log(`List id: ${listId}`);
+    navigation.navigate('ListDetails', {listId});
   };
 
   const deleteList = async () => {

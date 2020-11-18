@@ -29,7 +29,6 @@ import Api from '../services/list';
 
 export default () => {
   const navigation = useNavigation();
-  const route = useRoute();
   const [products, setProducts] = useState([]);
   const [productsName, setProductsName] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -38,12 +37,6 @@ export default () => {
   const [listName, setListName] = useState('');
   const [newList, setNewList] = useState(true);
   const [loading, setLoading] = useState(false);
-
-  /* function calcTotal(price, amount) {
-    price = price.toString().replace(/,/, '.');
-    const total = parseFloat(price) * amount;
-    return total;
-  } */
 
   const reset = () => {
     setProducts([]);
