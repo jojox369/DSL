@@ -10,8 +10,6 @@ import {
   InputArea,
   LoginButton,
   LoginButtonText,
-  ForgotPasswordButton,
-  ForgotPasswordButtonText,
 } from '../assets/styles/login';
 
 import DSLIcon from '../assets/icons/dsl-icon.svg';
@@ -22,12 +20,13 @@ export default () => {
   const navigation = useNavigation();
 
   [username, setUsername] = useState('');
+  [name, setName] = useState('');
   [password, setPassword] = useState('');
   [loading, setLoading] = useState(false);
   const {dispatch: userDispatch} = useContext(Context);
 
   const handleClickLogin = async () => {
-    if (!username || !password) {
+    if (!username || !password || !name) {
       showMessage({
         message: 'Preencha os campos',
         type: 'warning',
@@ -43,27 +42,33 @@ export default () => {
       } else {
         setLoading(true);
 
-        const result = await Api.auth(username, password);
+        const result = await Api.save(username, name, password);
 
-        if (result !== 'error') {
+        if (result === 'warning') {
+          setLoading(false);
+          showMessage({
+            message: 'Usuário já existe',
+            type: 'warning',
+            icon: 'warning',
+          });
+        } else if (result === 'error') {
+          setLoading(false);
+          showMessage({
+            message: 'Não foi possivel salvar o Usuário',
+            type: 'danger',
+            icon: 'danger',
+          });
+        } else {
           await AsyncStorage.setItem('logged', 'true');
-          await AsyncStorage.setItem('userData', JSON.stringify(result.user));
+          await AsyncStorage.setItem('userData', JSON.stringify(result));
           userDispatch({
             type: 'setUser',
             payload: {
-              user: result.user,
+              user: result,
             },
           });
           navigation.reset({
             routes: [{name: 'MainRoutes'}],
-          });
-        } else {
-          setLoading(false);
-
-          showMessage({
-            message: 'Usuário e/ou senha inválidos',
-            type: 'warning',
-            icon: 'warning',
           });
         }
       }
@@ -83,18 +88,21 @@ export default () => {
             keyboardType="email-address"
           />
           <InputComponent
+            placeholder="Digite o seu nome"
+            onChangeText={(t) => setName(t)}
+            value={name}
+          />
+          <InputComponent
             placeholder="Digite a sua senha"
             password={true}
             onChangeText={(t) => setPassword(t)}
             value={password}
           />
+
           <LoginButton onPress={handleClickLogin}>
-            <LoginButtonText>Login</LoginButtonText>
+            <LoginButtonText>Cadastrar</LoginButtonText>
           </LoginButton>
         </InputArea>
-        <ForgotPasswordButton onPress={() => navigation.navigate('Register')}>
-          <ForgotPasswordButtonText>Cadastrar-se</ForgotPasswordButtonText>
-        </ForgotPasswordButton>
       </Container>
     );
   }

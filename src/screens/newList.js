@@ -1,9 +1,5 @@
 import React, {useState, useContext, useEffect} from 'react';
-import {
-  useNavigation,
-  useRoute,
-  useFocusEffect,
-} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {showMessage} from 'react-native-flash-message';
 import {
   Container,
@@ -37,15 +33,6 @@ export default () => {
   const [listName, setListName] = useState('');
   const [newList, setNewList] = useState(true);
   const [loading, setLoading] = useState(false);
-
-  const reset = () => {
-    setProducts([]);
-    setProductsName([]);
-    setShowModal(false);
-    setListName('');
-    setNewList(true);
-    setLoading(false);
-  };
 
   const toggle = () => {
     setShowModal(!showModal);
@@ -91,7 +78,7 @@ export default () => {
           icon: 'success',
         });
         setTimeout(() => {
-          navigation.reset({routes: [{name: 'Home'}]});
+          navigation.reset({index: 0, routes: [{name: 'Home'}]});
         }, 4000);
       } else {
         showMessage({

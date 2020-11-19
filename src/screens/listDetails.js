@@ -19,21 +19,25 @@ import {
 import InputComponent from '../components/Input';
 import Api from '../services/list';
 import ProductApi from '../services/product';
-import showMessage from 'react-native-flash-message';
+import {showMessage} from 'react-native-flash-message';
 import NewProductModal from '../components/Modal';
 import DeleteItemIcon from '../assets/icons/close.svg';
 import NewProductIcon from '../assets/icons/plus.svg';
 import FinishEditinIcon from '../assets/icons/check.svg';
+import {useNavigation} from '@react-navigation/native';
+import LoadingComponent from '../components/Loading';
 
 export default ({route}) => {
-  /* const {listId} = route.params; */
+  const navigation = useNavigation();
+  const {listId} = route.params;
   const [list, setList] = useState({});
   const [listProduct, setListProduct] = useState([]);
   const [products, setProducts] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const getList = async () => {
-    const response = await Api.getById(41);
+    const response = await Api.getById(listId);
     if (response !== 'error') {
       setList(response);
 
@@ -128,21 +132,35 @@ export default ({route}) => {
   };
 
   const finishEditing = async () => {
+    setLoading(true);
     list.list_product = listProduct;
     listProduct.forEach((product) => {
       product.price = product.price.toString().replace(/,/, '.');
       product.price = parseFloat(product.price);
     });
-    const listId = 41;
-    const data = {name: list.name, products: listProduct};
+
+    const products = listProduct.map((product) => {
+      return {
+        id: product.product_id,
+        amount: product.amount,
+        price: product.price,
+      };
+    });
+
+    const data = {name: list.name, products};
 
     const response = await Api.update(listId, data);
+
     if (response !== 'error') {
+      setList(response);
       showMessage({
         message: 'Lista Atualizada com sucesso',
         type: 'success',
         icon: 'success',
       });
+      setTimeout(() => {
+        navigation.navigate('Home');
+      }, 4000);
     } else {
       showMessage({
         message: 'Erro ao tentar atualizar a lista',
@@ -154,73 +172,82 @@ export default ({route}) => {
 
   return (
     <Container>
-      <HeaderArea>
-        <FinishEditingButton onPress={finishEditing}>
-          <FinishEditinIcon width="25" height="25" fill="#ffffff" />
-        </FinishEditingButton>
+      {!loading && (
+        <HeaderArea>
+          <FinishEditingButton onPress={finishEditing}>
+            <FinishEditinIcon width="25" height="25" fill="#ffffff" />
+          </FinishEditingButton>
 
-        <NewItemButton onPress={() => setShowModal(true)}>
-          <NewProductIcon width="25" height="25" fill="#ffffff" />
-        </NewItemButton>
+          <NewItemButton onPress={() => setShowModal(true)}>
+            <NewProductIcon width="25" height="25" fill="#ffffff" />
+          </NewItemButton>
 
-        <TotalListArea>
-          <TotalListText>Total: R$ {calcListTotal()}</TotalListText>
-        </TotalListArea>
-      </HeaderArea>
+          <TotalListArea>
+            <TotalListText>Total: R$ {calcListTotal()}</TotalListText>
+          </TotalListArea>
+        </HeaderArea>
+      )}
 
-      <Scroller>
-        <NewProductModal
-          addItem={addItem}
-          isVisible={showModal}
-          toggle={() => setShowModal(false)}
-        />
-        {listProduct.map((product, i) => (
-          <Card key={i}>
-            <ProductNameArea>
-              <ProductNameText>{findName(product.product_id)} </ProductNameText>
-              <DeleteItemIcon
+      {!loading && (
+        <Scroller>
+          <NewProductModal
+            addItem={addItem}
+            isVisible={showModal}
+            toggle={() => setShowModal(false)}
+          />
+          {listProduct.map((product, i) => (
+            <Card key={i}>
+              <ProductNameArea>
+                <ProductNameText>
+                  {findName(product.product_id)}{' '}
+                </ProductNameText>
+                {/* <DeleteItemIcon
                 width="25"
                 height="25"
                 fill="#f32013"
                 onPress={() => removeItem(i)}
-              />
-            </ProductNameArea>
-            <InputArea>
-              <InputRange>
-                <Label>Preço</Label>
-                <InputComponent
-                  value={product.price === 0 ? '' : product.price.toString()}
-                  onChangeText={(t) => {
-                    onChangePrice(t, i);
-                    calcTotal(product.price, product.amount);
-                  }}
-                  keyboardType="numeric"
-                  placeholder="Digite o preço"
-                />
-              </InputRange>
+              /> */}
+              </ProductNameArea>
+              <InputArea>
+                <InputRange>
+                  <Label>Preço</Label>
+                  <InputComponent
+                    value={product.price === 0 ? '' : product.price.toString()}
+                    onChangeText={(t) => {
+                      onChangePrice(t, i);
+                      calcTotal(product.price, product.amount);
+                    }}
+                    keyboardType="numeric"
+                    placeholder="Digite o preço"
+                  />
+                </InputRange>
 
-              <InputRange>
-                <Label>Quantidade</Label>
-                <InputComponent
-                  value={product.amount === 0 ? '' : product.amount.toString()}
-                  onChangeText={(t) => {
-                    onChangeAmount(t, i);
-                    calcTotal(product.price, product.amount);
-                  }}
-                  keyboardType="numeric"
-                  placeholder="Digite a quantidade"
-                />
-              </InputRange>
-            </InputArea>
+                <InputRange>
+                  <Label>Quantidade</Label>
+                  <InputComponent
+                    value={
+                      product.amount === 0 ? '' : product.amount.toString()
+                    }
+                    onChangeText={(t) => {
+                      onChangeAmount(t, i);
+                      calcTotal(product.price, product.amount);
+                    }}
+                    keyboardType="numeric"
+                    placeholder="Digite a quantidade"
+                  />
+                </InputRange>
+              </InputArea>
 
-            <TotalProductArea>
-              <TotalProductText>
-                Total: R$ {calcTotal(product.price, product.amount)}
-              </TotalProductText>
-            </TotalProductArea>
-          </Card>
-        ))}
-      </Scroller>
+              <TotalProductArea>
+                <TotalProductText>
+                  Total: R$ {calcTotal(product.price, product.amount)}
+                </TotalProductText>
+              </TotalProductArea>
+            </Card>
+          ))}
+        </Scroller>
+      )}
+      {loading && <LoadingComponent />}
     </Container>
   );
 };

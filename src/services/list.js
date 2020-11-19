@@ -1,18 +1,16 @@
+import Axios from 'axios';
 import api from './api';
-import axios from 'axios';
-
+import {API_URL} from './api';
 export default {
   getAll: async (userId) => {
-    const request = await api.get(`list/user/${userId}`);
-    if (request.status === 200) {
-      if (request.data.warning) {
-        return 'warning';
-      } else {
-        return request.data;
-      }
-    } else {
-      return 'error';
-    }
+    const req = await fetch(`${API_URL}/list/user/${userId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const json = await req.json();
+    return json;
   },
 
   getById: async (listId) => {
@@ -33,8 +31,10 @@ export default {
     }
   },
 
-  update: async (listId, body) => {
-    const request = await api.put(`list/${listId}`, body);
+  update: async (listId, data) => {
+    //list de produtos chegando corretamente
+
+    const request = await api.put(`list/${listId}`, data);
     if (request.status === 200) {
       return request.data;
     } else {

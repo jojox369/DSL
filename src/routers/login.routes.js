@@ -3,6 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Sigin from '../screens/sigin';
 import Preload from '../screens/preload';
 import Login from '../screens/login';
+import Register from '../screens/register';
 import MainRoutes from './main.routes';
 
 const Stack = createStackNavigator();
@@ -16,5 +17,6 @@ export default () => (
     <Stack.Screen name="Login" component={Login} />
     <Stack.Screen name="Sigin" component={Sigin} />
     <Stack.Screen name="MainRoutes" component={MainRoutes} />
+    <Stack.Screen name="Register" component={Register} />
   </Stack.Navigator>
 );

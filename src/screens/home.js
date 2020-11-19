@@ -39,7 +39,7 @@ export default () => {
     const lists = await Api.getAll(state.id);
 
     if (lists !== 'error') {
-      if (lists === 'warning') {
+      if (lists.warning) {
         showMessage({
           message: 'Você não possui listas',
           type: 'warning',
@@ -47,6 +47,7 @@ export default () => {
         });
         setLoading(false);
         setHasNoLists(true);
+        setLists([]);
       } else {
         setLists(lists);
         setLoading(false);
@@ -103,7 +104,7 @@ export default () => {
   };
 
   const editButtonPress = () => {
-    navigation.navigate('ListDetails', {listId});
+    navigation.reset({routes: [{name: 'ListDetails', params: {listId}}]});
   };
 
   const deleteList = async () => {

@@ -9,3 +9,5 @@ const api = axios.create({
 });
 
 export default api;
+
+export const API_URL = 'https://dsl-api.herokuapp.com';

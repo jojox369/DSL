@@ -15,8 +15,15 @@ export default {
     }
   },
 
-  getById: async (id) => {
-    const request = await api.get(`user/${id}`);
-    console.log(request.data);
+  save: async (username, name, password) => {
+    const body = {username, name, password};
+    const request = await api.post('user', body);
+    if (request.status === 201) {
+      return request.data;
+    } else if (request.status === 200) {
+      return 'warning';
+    } else {
+      return 'error';
+    }
   },
 };

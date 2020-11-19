@@ -11,9 +11,7 @@ import CustomTabBar from '../components/TabBar';
 const Tab = createBottomTabNavigator();
 
 export default () => (
-  <Tab.Navigator
-    tabBar={(props) => <CustomTabBar {...props} />}
-    initialRouteName="ListDetails">
+  <Tab.Navigator tabBar={(props) => <CustomTabBar {...props} />}>
     <Tab.Screen name="Home" component={Home} />
     <Tab.Screen name="NewList" component={NewList} />
     <Tab.Screen name="ListDetails" component={ListDetails} />
