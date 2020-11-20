@@ -5,7 +5,7 @@ A Digital List tem como objetivo ajudar as pessoas no cotidiano com as suas comp
 Ao abrir o App, você ira se deparar com a tela de login:
 
 
-<img src="https://github.com/jojox369/dl-images/blob/main/login.jpg" align="left" height="500"  >
+<img src="https://github.com/jojox369/dl-images/blob/main/login.jpg"  height="500"  >
 
 
 
