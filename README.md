@@ -76,9 +76,9 @@ Voltando as opções da lista, caso o usuario aperte o botão de excluir o item,
 
 Caso o usuario aperte o botão sim, uma mensagem será exibida informando que a lista foi excluida e a pagina home será atualizada:
 
-<img src="https://github.com/jojox369/dl-images/blob/main/show%20message%20list%20has%20deleted.jpg" height="500"  >
+<img src="https://github.com/jojox369/dl-images/blob/main/show%20message%20list%20has%20deleted.jpg" align="left" height="500"  >
 
-<img src="https://github.com/jojox369/dl-images/blob/main/no%20list%20message.jpg" align="left" height="500"  >
+<img src="https://github.com/jojox369/dl-images/blob/main/no%20list%20message.jpg"  height="500"  >
 
 
 
