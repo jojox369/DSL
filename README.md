@@ -14,5 +14,13 @@ Caso ainda não poussa uma conta, basta clicar no "Cadastrar-se" e a tela de cad
 Ao clicar no botão de cadastrar-se, uma messagem será exibida e você será automaticamente redirecionado pra tela home, que mostra todas as listas que o usuario possui. Ao entrar na home, caso o usuario não possua uma lista, ele irá exibir uma messagem informando que o usuario nao possui uma lista:
 
 <img src="https://github.com/jojox369/dl-images/blob/main/new%20user%20message.jpg" align="left" height="500"  >
-<img src="https://github.com/jojox369/dl-images/blob/main/no%20list%20message.jpg" align="left" height="500"  >
+<img src="https://github.com/jojox369/dl-images/blob/main/no%20list%20message.jpg" height="500"  >
 
+Para criar uma nova lista, basta apertar o icone de "+" na tab bar, que irá abrir a tela de cadastro de lista:
+
+<img src="https://github.com/jojox369/dl-images/blob/main/new%20list.jpg" height="500"  >
+
+Para criar uma lista, é necessario que ela tenha um nome e pelo menos um produto adicionado nela. Caso tente finalizar a lista sem qualquer um dos dois, ele ira exibir mensagens:
+
+<img src="https://github.com/jojox369/dl-images/blob/main/insert%20list%20name%20message.jpg" align="left" height="500"  >
+<img src="https://github.com/jojox369/dl-images/blob/main/insert%20product%20message.jpg" height="500"  >
