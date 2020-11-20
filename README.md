@@ -5,4 +5,4 @@ A Digital List tem como objetivo ajudar as pessoas no cotidiano com as suas comp
 Ao abrir o App, você ira se deparar com a tela de login:
 
 
-<img src="https://drive.google.com/uc?export=view&id=1-uvnRaGtlia9CHtNbvXWABl-ZEeBTsRG" align="left" height="48"  >
+<img src="https://drive.google.com/uc?id=1-uvnRaGtlia9CHtNbvXWABl-ZEeBTsRG" align="left" height="48"  >
