@@ -1,6 +1,7 @@
 Olá e sejam bem-vindos!
 
 A Digital List tem como objetivo ajudar as pessoas no cotidiano com as suas compras no supermercado. O intuito do app é que sirva de lista, para anotar tudo aquilo que é preciso comprar e também ajude na hora de somar e ver quanto as compras irá custar.
+A Digital List também serviu como forma de avaliação da disciplina de Desenvolvimento de Aplicações moveis, no segundo semestre do ano de 2020. O App foi criado com React Native e consome os dados de uma <a href="https://github.com/jojox369/Digital-List-Api" >Api</a> construida em NodeJs e o seu banco de dados é o MySQL.
 
 Ao abrir o App, você ira se deparar com a tela de login:
 
