@@ -26,9 +26,11 @@ Para criar uma lista, é necessario que ela tenha um nome e pelo menos um produt
 <img src="https://github.com/jojox369/dl-images/blob/main/insert%20product%20message.jpg" height="500"  >
 
 Para adicionar o nome da lista e para adicionar um produto, basta apertar o botão arredondado. Na primeira vez que for apertado, ele irá pedir o nome da lista:
+
 <img src="https://github.com/jojox369/dl-images/blob/main/name%20list%20modal.jpg" height="500"  >
 
 Na segunda vez, ele ira mostrar a lista de produtos cadastras no banco de dados da Digital List. O banco possui os itens mais comuns e utilizados no dia a dia: 
+
 <img src="https://github.com/jojox369/dl-images/blob/main/list%20of%20product%20modal.jpg" height="500"  >
 
 Você pode pesquisar o item usando o campo de pesquisa e para adicionar o item na lista, basta apertar em cima do produto desejado e automaticamente ele irá sera adicionado na lista:
