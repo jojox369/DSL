@@ -67,9 +67,16 @@ export default () => {
               user: result,
             },
           });
-          navigation.reset({
-            routes: [{name: 'MainRoutes'}],
+          showMessage({
+            message: 'Usuário criado com sucesso',
+            type: 'success',
+            icon: 'success',
           });
+          setTimeout(() => {
+            navigation.reset({
+              routes: [{name: 'MainRoutes'}],
+            });
+          }, 4000);
         }
       }
     }
