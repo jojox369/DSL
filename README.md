@@ -5,4 +5,8 @@ A Digital List tem como objetivo ajudar as pessoas no cotidiano com as suas comp
 Ao abrir o App, você ira se deparar com a tela de login:
 
 
-<img src="https://github.com/jojox369/dl-images/blob/main/editing%20fields%20of%20products.jpg" align="left" height="500"  >
+<img src="https://github.com/jojox369/dl-images/blob/main/login.jpg" align="left" height="500"  >
+
+Caso ainda não poussa uma conta, basta clicar no "Cadastrar-se" e a tela de cadastro irá se abrir:
+
+<img src="https://github.com/jojox369/dl-images/blob/main/register.jpg" align="left" height="500"  >
